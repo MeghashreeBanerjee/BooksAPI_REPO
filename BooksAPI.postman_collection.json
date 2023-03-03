@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "9d22e8b6-0644-4899-9d41-4357b59c48dd",
+		"name": "BooksAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25556777"
+	},
+	"item": [
+		{
+			"name": "STATUS of Books",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://simple-books-api.glitch.me/status",
+					"protocol": "https",
+					"host": [
+						"simple-books-api",
+						"glitch",
+						"me"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var random = Math.random().toString(30).substring(2);\r",
+							"\r",
+							"var email=\"client\"+random+\"@gmail.com\";\r",
+							"var cname=\"client\"+random;\r",
+							"\r",
+							"pm.environment.set(\"env_email\",email);\r",
+							"pm.environment.set(\"env_name\",cname);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"clientName\": \"{{env_name}}\",\r\n    \"clientEmail\":\"{{env_email}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api-clients/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api-clients",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Book Info/list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code:200\",()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"}\r",
+							");\r",
+							"\r",
+							"\r",
+							"var jsonData= JSON.parse(responseBody);\r",
+							"pm.environment.set(\"bookID[]\", jsonData.id);\r",
+							"pm.environment.get(bookID[1]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/books",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single book Info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Code should be 200\",()=>\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/books/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"books",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "452434bc80a61b6f5220a9fdacddd346e856881ae7195699034d2f5a0d83cf63",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookId\": 3,\r\n    \"customerName\":\"Megha3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/orders",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SeeAllOrders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "452434bc80a61b6f5220a9fdacddd346e856881ae7195699034d2f5a0d83cf63",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/orders",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SeeSingleOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "452434bc80a61b6f5220a9fdacddd346e856881ae7195699034d2f5a0d83cf63",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/orders/vOfd20sAIFs3BWsTNzYEa",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"orders",
+						"vOfd20sAIFs3BWsTNzYEa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "452434bc80a61b6f5220a9fdacddd346e856881ae7195699034d2f5a0d83cf63",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quantity\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/orders/vOfd20sAIFs3BWsTNzYEa",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"orders",
+						"vOfd20sAIFs3BWsTNzYEa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAnOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "452434bc80a61b6f5220a9fdacddd346e856881ae7195699034d2f5a0d83cf63",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/orders/vOfd20sAIFs3BWsTNzYEa",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"orders",
+						"vOfd20sAIFs3BWsTNzYEa"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://simple-books-api.glitch.me",
+			"type": "string"
+		}
+	]
+}
